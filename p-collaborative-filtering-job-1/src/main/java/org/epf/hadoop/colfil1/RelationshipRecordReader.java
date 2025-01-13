@@ -25,8 +25,10 @@ public class RelationshipRecordReader extends RecordReader<LongWritable, Relatio
             currentKey.set(lineRecordReader.getCurrentKey().get());
             String line = lineRecordReader.getCurrentValue().toString();
             String[] parts = line.split("<->");
-            currentValue.setId1(parts[0].trim());
-            currentValue.setId2(parts[1].split(";")[0].trim());
+            String id1 = parts[0].trim();
+            String id2 = parts[1].split(",")[0].trim();  // Enlever le timestamp
+            currentValue.setId1(id1);
+            currentValue.setId2(id2);
         }
         return hasNext;
     }

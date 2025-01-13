@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hadoop-tp3-collaborativeFiltering-job2</artifactId>
+    <artifactId>hadoop-tp3-collaborativeFiltering-job1</artifactId>
     <version>1.0</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-     <dependencies>
+    <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
@@ -48,7 +48,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.epf.hadoop.colfil2.ColFilJob2</mainClass>
+                                    <mainClass>org.epf.hadoop.colfil1.ColFilJob1</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
