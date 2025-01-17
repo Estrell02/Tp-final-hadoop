@@ -1,24 +1,31 @@
 package org.epf.hadoop.colfil2;
 
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class FriendReducer extends Reducer<UserPair, IntWritable, Text, Text> {
-    private final Text result = new Text();
-
+public class FriendReducer extends Reducer<UserPair, IntWritable, UserPair, IntWritable> {
     @Override
-   public void reduce(UserPair key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(UserPair key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int count = 0;
+        boolean directConnection = false;
+
         
-        // Sum all occurrences for the given pair
-        for (IntWritable val : values) {
-            count += val.get();
+        for (IntWritable value : values) {
+            if (value.get() == 0) {
+                directConnection = true;
+            } else {
+                count += value.get();
+            }
         }
 
-        // Emit the result: pair of users and the number of common relations
-        context.write(key, new IntWritable(count));
+    
+        if (!directConnection && count > 0) {
+            if (!key.getFirstUser().equals(key.getSecondUser())) {
+                context.write(key, new IntWritable(count));
+                           }
+            // context.write(key, new IntWritable(count));
+        }
     }
 }

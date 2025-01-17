@@ -3,26 +3,38 @@ package org.epf.hadoop.colfil2;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.io.LongWritable;
 
 import java.io.IOException;
+import java.util.Arrays;
 
-public class FriendMapper extends Mapper<LongWritable, Text, UserPair, IntWritable> {
-    private final IntWritable one = new IntWritable(1);
+public class FriendMapper extends Mapper<Object, Text, UserPair, IntWritable> {
+    private final static IntWritable ONE = new IntWritable(1);
+    private final static IntWritable ZERO = new IntWritable(0);
 
     @Override
-    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-        /String[] parts = value.toString().split("\t");
+    protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+       
+        String[] parts = value.toString().split("\\t");
+        if (parts.length < 2) return;
+
         String user = parts[0];
-        String[] relations = parts[1].split(",");
+        String[] friends = parts[1].split(",");
+
         
-        // Compare each pair of relations and emit them as keys
-        for (int i = 0; i < relations.length; i++) {
-            for (int j = i + 1; j < relations.length; j++) {
-                // Sort users in lexicographical order to avoid duplicates
-                UserPair pair = new UserPair(relations[i], relations[j]);
-                context.write(pair, one);
+        for (int i = 0; i < friends.length; i++) {
+            for (int j = i + 1; j < friends.length; j++) {
+                String friend1 = friends[i];
+                String friend2 = friends[j];
+                UserPair pair = new UserPair(friend1, friend2);
+                context.write(pair, ONE);
             }
+        }
+        
+
+        // direct relationships avec ZERO
+        for (String friend : friends) {
+            UserPair directPair = new UserPair(user, friend);
+            context.write(directPair, ZERO);
         }
     }
 }
