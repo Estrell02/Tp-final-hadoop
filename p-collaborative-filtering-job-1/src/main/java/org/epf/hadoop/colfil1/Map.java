@@ -11,9 +11,9 @@ import org.apache.hadoop.io.LongWritable;
 public class Map extends Mapper<LongWritable, Relationship, Text, Text> {
     @Override
     public void map(LongWritable key, Relationship value, Context context) throws IOException, InterruptedException {
-        // Emit A->B
+        // Emet A->B
         context.write(new Text(value.getId1()), new Text(value.getId2()));
-        // Emit B->A
+        // Emet B->A
         context.write(new Text(value.getId2()), new Text(value.getId1()));
     }
 }

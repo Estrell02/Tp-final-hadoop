@@ -21,7 +21,7 @@ public class RecommendationReducer extends Reducer<Text, Text, Text, Text> {
             recommendations.put(candidate, recommendations.getOrDefault(candidate, 0) + score);
         }
 
-        // Trier les  score décroissant
+        // Trier les  score décroissants
         List<Map.Entry<String, Integer>> sortedRecommendations = new ArrayList<>(recommendations.entrySet());
         sortedRecommendations.sort((a, b) -> b.getValue().compareTo(a.getValue()));
 

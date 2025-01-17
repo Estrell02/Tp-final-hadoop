@@ -15,7 +15,7 @@ public class Reduce extends Reducer<Text, Text, Text, Text> {
         for (Text value : values) {
             friends.add(value.toString());
         }
-        // Emit user -> list of friends
+        
         context.write(key, new Text(String.join(",", friends)));
     }
 }

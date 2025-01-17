@@ -21,7 +21,7 @@ public class ColFilJob1 {
 
         
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "MapReduce Job 1");
+        Job job = Job.getInstance(conf, " Job 1");
 
         
         job.setJarByClass(ColFilJob1.class);
